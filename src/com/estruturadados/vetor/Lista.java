@@ -1,39 +1,23 @@
 package com.estruturadados.vetor;
 
-import java.util.Arrays;
+import java.lang.reflect.Array;
 
-public class Vetor {
+public class Lista<T> {
 
-	private String[] elementos;
+	private T[] elementos;
 	private int tamanho;
 
-	public Vetor(int capacidade) {
-		this.elementos = new String[capacidade];
+	public Lista(int capacidade) {
+		this.elementos = (T[]) new Object[capacidade];
+		this.tamanho = 0;
+	}
+	
+	public Lista(int capacidade, Class<T> tipoClasse) {
+		this.elementos = (T[]) Array.newInstance(tipoClasse, capacidade);
 		this.tamanho = 0;
 	}
 
-	/*public void adiciona(String elemento) {
-		for (int i=0; i<this.elementos.length; i++) {
-			if (this.elementos[i] == null) {
-				this.elementos[i] = elemento;
-				break;
-			}
-		}
-	}*/
-
-	/*public void adiciona(String elemento) throws Exception {
-
-		if (this.tamanho < this.elementos.length) {
-			this.elementos[this.tamanho] = elemento;
-			this.tamanho++;
-		} else {
-			throw new Exception("Vetor já está cheio, não é possível adicionar mais elementos");
-		}
-
-
-	}*/
-
-	public boolean adiciona(String elemento) {
+	public boolean adiciona(T elemento) {
 		
 		this.aumentaCapacidade();
 
@@ -45,7 +29,7 @@ public class Vetor {
 		return false;
 	}
 	
-	public boolean adiciona(int posicao, String elemento) {
+	public boolean adiciona(int posicao, T elemento) {
 		
 		if (!(posicao >= 0 && posicao < tamanho)) {
 			throw new IllegalArgumentException("Posição inválida");
@@ -64,7 +48,7 @@ public class Vetor {
 	
 	private void aumentaCapacidade() {
 		if (this.tamanho == this.elementos.length) {
-			String[] elementosNovos = new String[this.elementos.length * 2];
+			T[] elementosNovos =(T[]) new Object[this.elementos.length * 2];
 			for (int i = 0; i < this.elementos.length; i++) {
 				elementosNovos[i] = this.elementos[i];
 			}
@@ -72,14 +56,14 @@ public class Vetor {
 		}
 	}
 	
-	public String busca(int posicao) {
+	public Object busca(int posicao) {
 		if (!(posicao >= 0 && posicao < tamanho)) {
 			throw new IllegalArgumentException("Posição inválida");
 		}
 		return this.elementos[posicao];
 	}
 	
-	public int busca(String elemento) {
+	public int busca(T elemento) {
 		for (int i = 0; i < this.tamanho; i++) {
 			if (this.elementos[i].equals(elemento)) {
 				return i;
@@ -121,6 +105,5 @@ public class Vetor {
 		
 		return s.toString();
 	}
-	
-	
+
 }
